@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratoire</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script>
+    // Vérification d'accès
+    document.addEventListener("DOMContentLoaded", function () {
+      checkAccess("Laboratoire"); // Seul le laboratoire peut accéder
+    });
+  </script>
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="text-center">Page Laboratoire</h2>
+    <div class="search-bar mb-4">
+      <input type="text" class="form-control" placeholder="Rechercher...">
+    </div>
+
+    <p>Ici, le laboratoire peut enregistrer les résultats des tests pour les patients.</p>
+
+    <!-- Section : Identités des patients reçues du réceptionniste -->
+    <section>
+      <h3>Identités des patients</h3>
+      <table class="table table-bordered" id="patientsTable">
+        <thead class="thead-light">
+          <tr>
+            <th>Prénom</th>
+            <th>Postnom</th>
+            <th>Sexe</th>
+            <th>Âge</th>
+            <th>Adresse</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Les données des patients seront ajoutées ici dynamiquement -->
+        </tbody>
+      </table>
+    </section>
+
+    <hr />
+ <!-- Section : Données reçues du prescripteur -->
+ <section>
+    <h3>Données des consultations</h3>
+    <table class="table table-bordered" id="prescriptionsTable">
+      <thead class="thead-light">
+        <tr>
+          <th>Patient</th>
+          <th>Description</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Les prescriptions seront ajoutées ici dynamiquement -->
+      </tbody>
+    </table>
+  </section>
+
+  <hr />
+
+  <!-- Section : Enregistrement des résultats -->
+  <section>
+    <h3>Enregistrer les résultats des tests</h3>
+    <form id="formResultat">
+      <div class="form-group">
+        <label for="patientResultat">Choisir un patient :</label>
+        <select id="patientResultat" name="patientResultat" class="form-control" required>
+          <option value="" disabled selected>-- Sélectionnez un patient --</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="resultat">Résultat du test :</label>
+        <textarea id="resultat" name="resultat" class="form-control" rows="4" required></textarea>
+      </div>
+
+      <button type="button" class="btn btn-primary" onclick="enregistrerResultat()">Enregistrer</button>
+    </form>
+  </section>
+
+</div>
+<script>
+    // Simuler les données reçues du réceptionniste
+    const patientsReceptionniste = [
+      { id: 1, prenom: "Jean", postnom: "Dupont", sexe: "Masculin", age: 30, adresse: "Paris" },
+      { id: 2, prenom: "Marie", postnom: "Curie", sexe: "Féminin", age: 35, adresse: "Lyon" },
+    ];
+
+    // Simuler les données reçues du prescripteur
+    const prescriptionsPrescripteur = [
+      { patient: "Jean Dupont", description: "Test sanguin", date: "2025-01-15" },
+      { patient: "Marie Curie", description: "IRM", date: "2025-01-16" },
+    ];
+
+    // Charger les données des patients dans le tableau
+    document.addEventListener("DOMContentLoaded", function () {
+      const patientsTable = document.getElementById("patientsTable").querySelector("tbody");
+      const patientSelect = document.getElementById("patientResultat");
+
+      patientsReceptionniste.forEach((patient) => {
+        // Ajouter au tableau des patients
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${patient.prenom}</td>
+          <td>${patient.postnom}</td>
+          <td>${patient.sexe}</td>
+          <td>${patient.age}</td>
+          <td>${patient.adre<script>
+    // Simuler les données reçues du réceptionniste
+    const patientsReceptionniste = [
+      { id: 1, prenom: "Jean", postnom: "Dupont", sexe: "Masculin", age: 30, adresse: "Paris" },
+      { id: 2, prenom: "Marie", postnom: "Curie", sexe: "Féminin", age: 35, adresse: "Lyon" },
+    ];
+
+    // Simuler les données reçues du prescripteur
+    const prescriptionsPrescripteur = [
+      { patient: "Jean Dupont", description: "Test sanguin", date: "2025-01-15" },
+      { patient: "Marie Curie", description: "IRM", date: "2025-01-16" },
+    ];
+
+    // Charger les données des patients dans le tableau
+    document.addEventListener("DOMContentLoaded", function () {
+      const patientsTable = document.getElementById("patientsTable").querySelector("tbody");
+      const patientSelect = document.getElementById("patientResultat");
+
+      patientsReceptionniste.forEach((patient) => {
+        // Ajouter au tableau des patients
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${patient.prenom}</td>
+          <td>${patient.postnom}</td>
+          <td>${patient.sexe}</td>
+          <td>${patient.age}</td>
+          <td>${patient.adre<script>
+    // Simuler les données reçues du réceptionniste
+    const patientsReceptionniste = [
+      { id: 1, prenom: "Jean", postnom: "Dupont", sexe: "Masculin", age: 30, adresse: "Paris" },
+      { id: 2, prenom: "Marie", postnom: "Curie", sexe: "Féminin", age: 35, adresse: "Lyon" },
+    ];
+
+    // Simuler les données reçues du prescripteur
+    const prescriptionsPrescripteur = [
+      { patient: "Jean Dupont", description: "Test sanguin", date: "2025-01-15" },
+      { patient: "Marie Curie", description: "IRM", date: "2025-01-16" },
+    ];
+
+    // Charger les données des patients dans le tableau
+    document.addEventListener("DOMContentLoaded", function () {
+      const patientsTable = document.getElementById("patientsTable").querySelector("tbody");
+      const patientSelect = document.getElementById("patientResultat");
+
+      patientsReceptionniste.forEach((patient) => {
+        // Ajouter au tableau des patients
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${patient.prenom}</td>
+          <td>${patient.postnom}</td>
+          <td>${patient.sexe}</td>
+          <td>${patient.age}</td>
+          <td>${patient.adresse}</td>
+        `;
+        patientsTable.appendChild(row);
+
+        // Ajouter au menu déroulant pour l'enregistrement des résultats
+        const option = document.createElement("option");
+        option.value = patient.id;
+        option.textContent = `${patient.prenom} ${patient.postnom}`;
+        patientSelect.appendChild(option);
+      });
+        // Charger les données des prescriptions dans le tableau
+        const prescriptionsTable = document.getElementById("prescriptionsTable").querySelector("tbody");
+      prescriptionsPrescripteur.forEach((prescription) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${prescription.patient}</td>
+          <td>${prescription.description}</td>
+          <td>${prescription.date}</td>
+        `;
+        prescriptionsTable.appendChild(row);
+      });
+    });
+
+    // Fonction pour enregistrer les résultats
+    function enregistrerResultat() {
+      const form = document.getElementById("formResultat");
+      const data = new FormData(form);
+
+      const patientId = data.get("patientResultat");
+      const resultat = data.get("resultat");
+      const patient = patientsReceptionniste.find((p) => p.id == patientId);
+      
+      if (!patient) {
+        alert("Patient non trouvé !");
+        return;
+      }
+
+      alert(`Résultat enregistré pour ${patient.prenom} ${patient.postnom}: ${resultat}`);
+      
+      // Réinitialiser le formulaire
+      form.reset();
+    }
+  </script>
+
+  <!-- Optionnel : Ajouter Bootstrap JS pour des fonctionnalités supplémentaires -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+            

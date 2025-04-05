@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultation</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script>
+    // Vérification d'accès
+    document.addEventListener("DOMContentLoaded", function () {
+      checkAccess("Réceptionniste"); // Seul le réceptionniste peut accéder
+    });
+  </script>
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="text-center">Consultation</h2>
+
+    <!-- Formulaire pour les identités des patients -->
+    <form id="formPrescription" class="mt-4">
+      <h3>Ajouter une consultation</h3>
+      <div class="form-group">
+        <label for="patient">Choisir un patient :</label>
+        <select id="patient" name="patient" class="form-control" required>
+          <option value="" disabled selected>-- Sélectionnez un patient --</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description de la consultation :</label>
+        <textarea id="description" name="description" class="form-control" rows="4" required></textarea>
+      </div>
+
+      <button type="button" class="btn btn-primary" onclick="ajouterPrescription()">Ajouter la consultation</button>
+    </form>
+
+    <!-- Liste des prescriptions ajoutées -->
+    <hr />
+    <h3>Consultations enregistrées</h3>
+    <table class="table table-bordered" id="prescriptionsTable">
+      <thead class="thead-light">
+        <tr>
+          <th>Patient</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Les prescriptions seront ajoutées ici dynamiquement -->
+      </tbody>
+    </table>
+
+    <!-- Bouton pour envoyer les données au laboratoire -->
+    <button type="button" class="btn btn-success mt-3" onclick="envoyerPrescriptions()">Envoyer les consultations au laboratoire</button>
+  </div>
+
+  <script>
+    // Tableau pour stocker les patients
+    const patients = [
+      { id: 1, prenom: "Jean", postnom: "Dupont", sexe: "Masculin" },
+      { id: 2, prenom: "Marie", postnom: "Curie", sexe: "Féminin" },
+    ];
+
+    // Tableau pour stocker les prescriptions
+    const prescriptions = [];
+
+    // Charger la liste des patients dans le formulaire
+    document.addEventListener("DOMContentLoaded", function () {
+      const patientSelect = document.getElementById("patient");
+      patients.forEach((patient) => {
+        const option = document.createElement("option");
+        option.value = patient.id;
+        option.textContent = ${patient.prenom} ${patient.postnom};
+        patientSelect.appendChild(option);
+      });
+    });
+
+    // Ajouter une prescription
+    function ajouterPrescription() {
+      const form = document.getElementById("formPrescription");
+      const data = new FormData(form);
+
+      const patientId = data.get("patient");
+      const description = data.get("description");
+      const patient = patients.find((p) => p.id == patientId);
+      const date = new Date().toLocaleString();
+
+      if (!patient) {
+        alert("Patient non trouvé !");
+        return;
+      }
+
+      // Ajouter la prescription dans le tableau
+      const tableBody = document.getElementById("prescriptionsTable").querySelector("tbody");
+      const newRow = document.createElement("tr");
+      newRow.innerHTML = 
+        <td>${patient.prenom} ${patient.postnom}</td>
+        <td>${description}</td>
+        <td>${date}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="supprimerPrescription(this)">Supprimer</button></td>
+      ;
+      tableBody.appendChild(newRow);
+
+      // Ajouter la prescription à la liste des prescriptions
+      prescriptions.push({ patient: ${patient.prenom} ${patient.postnom}, description, date });
+
+      // Réinitialiser le formulaire
+      form.reset();
+      alert("Prescription ajoutée avec succès !");
+    }
+
+    // Supprimer une prescription
+    function supprimerPrescription(button) {
+      const row = button.closest("tr");
+      row.remove();
+      
+      // Retirer la prescription de la liste
+      const patientName = row.cells[0].textContent;
+      const index = prescriptions.findIndex(p => p.patient === patientName);
+      if (index > -1) {
+        prescriptions.splice(index, 1);
+      }
+      
+      alert("Prescription supprimée avec succès !");
+    }
+
+    // Envoyer les prescriptions au laboratoire
+    function envoyerPrescriptions() {
+      if (prescriptions.length === 0) {
+        alert("Aucune prescription à envoyer !");
+        return;
+      }
+
+      // Simuler l'envoi des prescriptions
+      console.log("Envoi des prescriptions au laboratoire:", prescriptions);
+      alert("Prescriptions envoyées au laboratoire avec succès !");
+      
+      // Optionnel : vider la liste après l'envoi
+      prescriptions.length = 0;
+      document.getElementById("prescriptionsTable").querySelector("tbody").innerHTML = '';
+    }
+  </script>
+
+  <!-- Optionnel : Ajouter Bootstrap JS pour des fonctionnalités supplémentaires -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

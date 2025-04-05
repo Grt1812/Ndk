@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prescription Paramedical</title>
+  <script>
+    // Vérification d'accès
+    document.addEventListener("DOMContentLoaded", function () {
+      checkAccess("Réceptionniste"); // Seul le réceptionniste peut accéder
+    });
+  </script>
+</head>
+<body>
+  <h2>Prescription Paramedical</h2>
+  <p>Le réceptionniste peut ici enregistrer les prescriptions des patients et les envoyer au laboratoire.</p>
+
+  <!-- Formulaire pour les identités des patients -->
+  <form id="formPrescription">
+    <h3>Ajouter une prescription</h3>
+    <label for="patient">Choisir un patient :</label>
+    <select id="patient" name="patient" required>
+      <option value="" disabled selected>-- Sélectionnez un patient --</option>
+    </select><br><br>
+
+    <label for="description">Description de la prescription :</label>
+    <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+
+    <button type="button" onclick="ajouterPrescription()">Ajouter la prescription</button>
+  </form>
+
+  <!-- Liste des prescriptions ajoutées -->
+  <hr />
+  <h3>Prescriptions enregistrées</h3>
+  <table border="1" id="prescriptionsTable">
+    <thead>
+      <tr>
+        <th>Patient</th>
+        <th>Description</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Les prescriptions seront ajoutées ici dynamiquement -->
+    </tbody>
+  </table>
+
+  <!-- Bouton pour envoyer les données au laboratoire -->
+  <hr />
+  <button id="envoyerLaboratoire" onclick="envoyerLaboratoire()">Envoyer les données au laboratoire</button>
+
+  <script>
+    // Tableau pour stocker les patients
+    const patients = [
+      { id: 1, prenom: "Jean", postnom: "Dupont", sexe: "Masculin" },
+      { id: 2, prenom: "Marie", postnom: "Curie", sexe: "Féminin" },
+    ];
+
+    // Tableau pour stocker les prescriptions
+    const prescriptions = [];
+
+    // Charger la liste des patients dans le formulaire
+    document.addEventListener("DOMContentLoaded", function () {
+      const patientSelect = document.getElementById("patient");
+      patients.forEach((patient) => {
+        const option = document.createElement("option");
+        option.value = patient.id;
+        option.textContent = `${patient.prenom} ${patient.postnom}`;
+        patientSelect.appendChild(option);
+      });
+    });
+
+    // Ajouter une prescription
+    function ajouterPrescription() {
+      const form = document.getElementById("formPrescription");
+      const data = new FormData(form);
+
+      const patientId = data.get("patient");
+      const description = data.get("description");
+      const patient = patients.find((p) => p.id == patientId);
+      const date = new Date().toLocaleString();
+
+      if (!patient) {
+        alert("Patient non trouvé !");
+        return;
+      }
+
+      // Ajouter la prescription dans le tableau en mémoire
+      const prescription = { patient, description, date };
+      prescriptions.push(prescription);
+
+      // Ajouter la prescription dans la table affichée
+      const tableBody = document.getElementById("prescriptionsTable").querySelector("tbody");
+      const newRow = document.createElement("tr");
+      newRow.innerHTML = `
+        <td>${patient.prenom} ${patient.postnom}</td>
+        <td>${description}</td>
+        <td>${date}</td>
+      `;
+      tableBody.appendChild(newRow);
+
+      // Réinitialiser le formulaire
+      form.reset();
+      alert("Prescription ajoutée avec succès !");
+    }
+
+    // Envoyer les données au laboratoire
+    function envoyerLaboratoire() {
+      if (prescriptions.length === 0) {
+        alert("Aucune prescription à envoyer !");
+        return;
+      }
+
+      // Simuler l'envoi des données
+      console.log("Données envoyées au laboratoire :", prescriptions);
+
+      alert(`Données des prescriptions (${prescriptions.length}) envoyées avec succès au laboratoire !`);
+
+      // Réinitialiser la liste des prescriptions et le tableau affiché
+      prescriptions.length = 0;
+      document.getElementById("prescriptionsTable").querySelector("tbody").innerHTML = "";
+    }
+  </script>
+</body>
+</html>
